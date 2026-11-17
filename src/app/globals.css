@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/*
+ * CobroNeto — herramienta sobria, estilo formulario fiscal.
+ * Un fondo, una tinta, un acento. Sin grano, sin degradados, sin cursivas decorativas.
+ */
+:root {
+  --bg: #ffffff;
+  --surface: #f6f6f2;
+  --ink: #141413;
+  --muted: #5e5d57;
+  --line: #e2e1da;
+  --line-strong: #c9c8bf;
+  --accent: #136243;
+  --accent-ink: #ffffff;
+  --accent-tint: #e8f2ec;
+  --warn-tint: #fbf3e2;
+  --warn-line: #e8d3a6;
+  /* Segmentos de la barra de reparto */
+  --seg-neto: #136243;
+  --seg-isr: #2b2b28;
+  --seg-iva: #b7791f;
+  --seg-com: #8f8e86;
+  --seg-gastos: #cfcec5;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111110;
+    --surface: #1a1a18;
+    --ink: #ededea;
+    --muted: #a3a29b;
+    --line: #2a2a27;
+    --line-strong: #3d3d39;
+    --accent: #4fb589;
+    --accent-ink: #0b1f15;
+    --accent-tint: #15291f;
+    --warn-tint: #2a2214;
+    --warn-line: #5a4626;
+    --seg-neto: #4fb589;
+    --seg-isr: #d9d8d2;
+    --seg-iva: #d9a441;
+    --seg-com: #7c7b74;
+    --seg-gastos: #4a4a45;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-tint: var(--accent-tint);
+  --color-warn-tint: var(--warn-tint);
+  --color-warn-line: var(--warn-line);
+  --font-sans: var(--font-body);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-tint);
+}
+
+/* Cifras alineadas en columnas sin cambiar de familia tipográfica. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Botones: respuesta inmediata al puntero y al clic. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.125rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--ink);
+  transition:
+    background-color 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 80ms ease-out;
+}
+.btn:hover {
+  border-color: var(--ink);
+  background: var(--surface);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+  .btn:active {
+    transform: none;
+  }
+}
+
+/* ---------- Prosa ---------- */
+.prose-cn {
+  max-width: 68ch;
+}
+.prose-cn h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2.5rem 0 0.75rem;
+}
+.prose-cn h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.5rem;
+}
+.prose-cn p,
+.prose-cn li {
+  color: var(--muted);
+  line-height: 1.7;
+}
+.prose-cn p + p {
+  margin-top: 0.9rem;
+}
+.prose-cn ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+}
+.prose-cn li + li {
+  margin-top: 0.35rem;
+}
+.prose-cn strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.prose-cn a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
