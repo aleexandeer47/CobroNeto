@@ -53,8 +53,8 @@ export const site = {
   leadUrl:
     safeHttpsUrl(process.env.NEXT_PUBLIC_LEAD_URL, null) ??
     (whatsapp ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(MENSAJE_WHATSAPP)}` : null),
-  /** Correo público de contacto (página /contacto). */
-  contactEmail: email(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
+  /** Correo público de contacto (página /contacto). La variable de entorno tiene prioridad. */
+  contactEmail: email(process.env.NEXT_PUBLIC_CONTACT_EMAIL) ?? "jsantosmorales16@gmail.com",
   /** AdSense: si no está definido, no se carga ningún script de anuncios. */
   adsenseClient: adsenseClient(process.env.NEXT_PUBLIC_ADSENSE_CLIENT),
 } as const;
