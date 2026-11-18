@@ -92,6 +92,35 @@ export const plataformas: Plataforma[] = [
     faq: faqComunes("Fiverr"),
   },
   {
+    slug: "workana",
+    nombre: "Workana",
+    etiqueta: "Workana",
+    comisionDefault: 15,
+    comisionNota:
+      "Workana cobra una comisión que depende de tu plan y de cuánto has facturado con cada cliente. Revisa el detalle de tus pagos y ajusta el campo.",
+    keyword: "Impuestos por Workana en El Salvador",
+    intro:
+      "Consigues proyectos en Workana y cobras en dólares desde El Salvador. Calcula cuánta renta e IVA te toca y cuánto te queda después de la comisión.",
+    puntos: [
+      {
+        titulo: "Muchos clientes son de Latinoamérica",
+        texto:
+          "En Workana es común trabajar para clientes de México, Colombia, Argentina o España. Si el cliente no está en El Salvador y usa tu trabajo afuera, sigue siendo exportación al 0 % de IVA.",
+      },
+      {
+        titulo: "Ojo con los clientes salvadoreños",
+        texto:
+          "Si te contrata una empresa de El Salvador por la plataforma, ese servicio no es exportación: lleva 13 % de IVA y la empresa podría retenerte el 10 % de renta.",
+      },
+      {
+        titulo: "Comisión y retiros son gastos",
+        texto:
+          "La comisión de Workana y lo que pagas por retirar tus fondos se restan de tu ingreso si guardas los comprobantes de la plataforma.",
+      },
+    ],
+    faq: faqComunes("Workana"),
+  },
+  {
     slug: "youtube",
     nombre: "YouTube",
     etiqueta: "YouTube",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Ad } from "@/components/Ad";
 import { fmtPct, fmtUSDCents } from "@/lib/format";
 import { FISCAL_YEAR, ISR_ANNUAL_2026, ISR_MONTHLY_2026, SOURCES, type TariffRow } from "@/lib/tax/tables2026";
 
@@ -83,6 +84,8 @@ export default function TablaRenta() {
         </p>
         <TariffTable rows={ISR_MONTHLY_2026} caption={`Tabla de retención mensual ${FISCAL_YEAR}`} />
       </section>
+
+      <Ad posicion="articulo" className="mt-12 px-0 sm:px-0" />
 
       <section id="como-usar" className="prose-cn mt-6 scroll-mt-6">
         <h2>Cómo se usa la tabla</h2>

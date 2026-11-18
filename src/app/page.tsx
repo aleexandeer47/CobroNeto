@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Ad } from "@/components/Ad";
 import { CalculatorSection } from "@/components/calculator/CalculatorSection";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
@@ -25,6 +26,8 @@ export default function Home() {
       <section aria-label="Calculadora" className="mx-auto max-w-6xl px-4 sm:px-6">
         <CalculatorSection />
       </section>
+
+      <Ad posicion="calculadora" className="mt-12" />
 
       <div className="mt-20">
         <Notes

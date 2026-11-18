@@ -14,11 +14,13 @@ export interface PlataformaOption {
 interface Props {
   plataformas: PlataformaOption[];
   plataformaInicial?: string;
+  /** Enlace para hablar con un contador (formulario o WhatsApp), si está configurado. */
+  leadUrl: string | null;
 }
 
 const OTRA = "otra";
 
-export function Calculator({ plataformas, plataformaInicial }: Props) {
+export function Calculator({ plataformas, plataformaInicial, leadUrl }: Props) {
   const inicial = plataformas.find((p) => p.slug === plataformaInicial);
   const [plataforma, setPlataforma] = useState(inicial?.slug ?? plataformas[0]?.slug ?? OTRA);
   const [form, setForm] = useState<FormState>(() => ({
@@ -64,6 +66,13 @@ export function Calculator({ plataformas, plataformaInicial }: Props) {
     } catch {
       setCopiado("error");
     }
+  };
+
+  // Comparte la página (sin tus montos) para que otros freelancers la encuentren.
+  const compartirWhatsApp = () => {
+    const url = `${window.location.origin}${window.location.pathname}`;
+    const texto = `Calcula cuánto te queda de lo que cobras como freelancer en El Salvador (renta e IVA): ${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -149,10 +158,13 @@ export function Calculator({ plataformas, plataformaInicial }: Props) {
       </form>
 
       <div>
-        <Result result={result} input={input} />
+        <Result result={result} input={input} leadUrl={leadUrl} />
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <button type="button" onClick={copiarEnlace} className="btn">
             Copiar enlace a este cálculo
+          </button>
+          <button type="button" onClick={compartirWhatsApp} className="btn">
+            Compartir por WhatsApp
           </button>
           <span role="status" aria-live="polite" className="text-sm text-muted">
             {copiado === "ok" && "Enlace copiado."}

@@ -30,8 +30,12 @@ export function SiteFooter() {
           <h2 className="font-medium">Recursos</h2>
           <ul className="mt-3 space-y-2">
             {[
+              ["/declarar-renta-freelancer", "Cómo declarar renta"],
+              ["/facturacion-electronica-freelancer", "Facturación electrónica"],
               ["/exportacion-de-servicios", "IVA 0 % por exportación"],
               ["/tabla-renta-2026", `Tabla de renta ${FISCAL_YEAR}`],
+              ["/acerca", "Acerca de"],
+              ["/contacto", "Contacto"],
               ["/privacidad", "Privacidad"],
               ["/aviso-legal", "Aviso legal"],
             ].map(([href, label]) => (

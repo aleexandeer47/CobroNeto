@@ -19,14 +19,54 @@ function siteUrl(): string {
   return (safeHttpsUrl(process.env.NEXT_PUBLIC_SITE_URL, null) ?? fallback).replace(/\/$/, "");
 }
 
+/** Número de WhatsApp en formato internacional, solo dígitos (50370000000). */
+function whatsappNumber(value: string | undefined): string | null {
+  const digits = (value ?? "").replace(/\D/g, "");
+  return digits.length >= 8 && digits.length <= 15 ? digits : null;
+}
+
+/** Correo de contacto; validación básica para no imprimir basura en la página. */
+function email(value: string | undefined): string | null {
+  const v = (value ?? "").trim();
+  return /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(v) ? v : null;
+}
+
+/** ID de editor de AdSense: "ca-pub-" + 16 dígitos. */
+function adsenseClient(value: string | undefined): string | null {
+  const v = (value ?? "").trim();
+  return /^ca-pub-\d{10,20}$/.test(v) ? v : null;
+}
+
+const whatsapp = whatsappNumber(process.env.NEXT_PUBLIC_WHATSAPP);
+const MENSAJE_WHATSAPP = "Hola, vengo de CobroNeto. Soy freelancer y quiero ayuda con mis impuestos en El Salvador.";
+
 export const site = {
   name: "CobroNeto",
   tagline: "Calculadora de impuestos para freelancers en El Salvador que cobran a clientes del extranjero",
   url: siteUrl(),
   locale: "es_SV",
   lang: "es-SV",
-  /** Formulario o WhatsApp para canalizar leads a contadores. Si no se define, el bloque no aparece. */
-  leadUrl: safeHttpsUrl(process.env.NEXT_PUBLIC_LEAD_URL, null),
+  /**
+   * A dónde mandar a quien quiere un contador: un formulario (NEXT_PUBLIC_LEAD_URL) o, si no hay,
+   * WhatsApp (NEXT_PUBLIC_WHATSAPP) con un mensaje precargado. Si no hay ninguno, el bloque no aparece.
+   */
+  leadUrl:
+    safeHttpsUrl(process.env.NEXT_PUBLIC_LEAD_URL, null) ??
+    (whatsapp ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(MENSAJE_WHATSAPP)}` : null),
+  /** Correo público de contacto (página /contacto). */
+  contactEmail: email(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
+  /** AdSense: si no está definido, no se carga ningún script de anuncios. */
+  adsenseClient: adsenseClient(process.env.NEXT_PUBLIC_ADSENSE_CLIENT),
+} as const;
+
+/** Bloques de anuncio de AdSense (IDs numéricos de "unidad de anuncio"). Vacíos = no se muestra. */
+export const adSlots = {
+  calculadora: /^\d{6,20}$/.test(process.env.NEXT_PUBLIC_ADSENSE_SLOT_CALCULADORA ?? "")
+    ? process.env.NEXT_PUBLIC_ADSENSE_SLOT_CALCULADORA!
+    : null,
+  articulo: /^\d{6,20}$/.test(process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICULO ?? "")
+    ? process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICULO!
+    : null,
 } as const;
 
 export interface Afiliado {

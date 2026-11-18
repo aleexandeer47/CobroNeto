@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Ad } from "@/components/Ad";
 import { Faq } from "@/components/Faq";
 import { fmtUSDCents } from "@/lib/format";
 import { FISCAL_YEAR, IVA_UMBRAL_INSCRIPCION, RETENCION_SERVICIOS } from "@/lib/tax/tables2026";
@@ -73,6 +74,11 @@ export default function ExportacionDeServicios() {
           dirigida al mercado salvadoreño para una empresa extranjera.
         </p>
 
+      </div>
+
+      <Ad posicion="articulo" className="mt-12" />
+
+      <div className="prose-cn">
         <h2>Qué evidencia guardar</h2>
         <ul>
           <li>Contrato u orden de trabajo donde aparezca el cliente y su país.</li>

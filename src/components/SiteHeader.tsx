@@ -3,7 +3,8 @@ import { Wordmark } from "./Wordmark";
 
 const nav = [
   { href: "/guias", label: "Guías" },
-  { href: "/exportacion-de-servicios", label: "IVA 0 % por exportación" },
+  { href: "/declarar-renta-freelancer", label: "Cómo declarar" },
+  { href: "/exportacion-de-servicios", label: "IVA 0 %" },
   { href: "/tabla-renta-2026", label: "Tabla de renta 2026" },
 ];
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Ad } from "@/components/Ad";
 import { CalculatorSection } from "@/components/calculator/CalculatorSection";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
@@ -70,6 +71,8 @@ export default async function GuiaPage({ params }: PageProps<"/guias/[plataforma
       <section aria-label="Calculadora" className="mx-auto max-w-6xl px-4 sm:px-6">
         <CalculatorSection plataformaInicial={p.slug} />
       </section>
+
+      <Ad posicion="calculadora" className="mt-12" />
 
       <div className="mt-20">
         <Notes id="claves" title={`Lo que cambia con ${p.etiqueta}`} items={p.puntos} />

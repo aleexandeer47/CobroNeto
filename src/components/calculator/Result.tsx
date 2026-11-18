@@ -12,7 +12,15 @@ const SEGMENTOS = [
 
 const EXENTO_ANUAL = ISR_ANNUAL_2026[1].lower;
 
-export function Result({ result, input }: { result: CalcResult; input: CalcInput }) {
+export function Result({
+  result,
+  input,
+  leadUrl,
+}: {
+  result: CalcResult;
+  input: CalcInput;
+  leadUrl: string | null;
+}) {
   const hayCobro = result.bruto > 0;
 
   return (
@@ -110,6 +118,18 @@ export function Result({ result, input }: { result: CalcResult; input: CalcInput
           Tienes <span className="num font-medium">{fmtUSDCents(result.ivaSaldoAFavor)}</span> al mes de IVA a favor por
           tus gastos. Como exportador puedes solicitar su devolución; no lo sumamos a lo que te queda.
         </p>
+      )}
+
+      {hayCobro && leadUrl && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-4 py-4 sm:px-6">
+          <p className="text-sm leading-relaxed">
+            <span className="font-medium">¿Te ayudamos a inscribirte o a declarar?</span>{" "}
+            <span className="text-muted">Un contador que trabaja con freelancers revisa tu caso.</span>
+          </p>
+          <a href={leadUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+            Hablar con un contador
+          </a>
+        </div>
       )}
 
       <p className="border-t border-line px-4 py-3 text-xs leading-relaxed text-muted sm:px-6">

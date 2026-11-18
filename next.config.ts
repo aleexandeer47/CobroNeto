@@ -2,18 +2,28 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV !== "production";
 
+/** Los dominios de AdSense solo se permiten si está configurado el ID de editor. */
+const ads = /^ca-pub-\d{10,20}$/.test(process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "");
+const adScript = ads
+  ? " https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.gstatic.com https://*.adtrafficquality.google"
+  : "";
+const adFrame = ads
+  ? "https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google"
+  : "'none'";
+
 /**
  * CSP sin nonces para conservar el prerenderizado estático (los nonces fuerzan render dinámico).
  * 'unsafe-inline' en scripts es necesario para los scripts de hidratación de Next en páginas estáticas.
- * Si agregas AdSense o analítica, añade sus dominios aquí (ver README).
+ * Vercel Analytics se sirve desde el mismo dominio (/_vercel/insights), así que entra en 'self'.
  */
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${adScript}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob:${ads ? " https:" : ""}`,
   "font-src 'self'",
-  `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self'${isDev ? " ws: wss:" : ""}${adScript}`,
+  `frame-src ${adFrame}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
