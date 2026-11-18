@@ -10,8 +10,8 @@ export function SiteFooter() {
         <div>
           <Wordmark />
           <p className="mt-3 max-w-sm leading-relaxed text-muted">
-            Estimaciones con tarifas SAT {FISCAL_YEAR}. No es asesoría fiscal ni sustituye a un contador. Algunos
-            enlaces pueden ser de afiliado.
+            Estimaciones para El Salvador con la tabla de renta {FISCAL_YEAR}. No es asesoría fiscal ni sustituye a un
+            contador. Algunos enlaces pueden ser de afiliado.
           </p>
         </div>
         <nav aria-label="Guías">
@@ -30,8 +30,8 @@ export function SiteFooter() {
           <h2 className="font-medium">Recursos</h2>
           <ul className="mt-3 space-y-2">
             {[
-              ["/resico-vs-actividad-empresarial", "RESICO vs Actividad Empresarial"],
-              ["/tablas-isr-2026", `Tablas ISR ${FISCAL_YEAR}`],
+              ["/exportacion-de-servicios", "IVA 0 % por exportación"],
+              ["/tabla-renta-2026", `Tabla de renta ${FISCAL_YEAR}`],
               ["/privacidad", "Privacidad"],
               ["/aviso-legal", "Aviso legal"],
             ].map(([href, label]) => (

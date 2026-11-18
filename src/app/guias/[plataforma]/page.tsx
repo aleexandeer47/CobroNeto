@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/guias/[plataforma
   const p = getPlataforma((await params).plataforma);
   if (!p) return {};
   return {
-    title: `${p.keyword} ${FISCAL_YEAR}: calculadora ISR e IVA`,
+    title: `${p.keyword} ${FISCAL_YEAR}: calculadora de renta e IVA`,
     description: p.intro,
     alternates: { canonical: `/guias/${p.slug}` },
     openGraph: { url: `/guias/${p.slug}`, title: `${p.keyword} ${FISCAL_YEAR}` },

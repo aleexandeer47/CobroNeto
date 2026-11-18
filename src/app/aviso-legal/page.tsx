@@ -13,25 +13,27 @@ export default function AvisoLegal() {
       <h1 className="text-3xl font-semibold tracking-tight sm:text-[2.75rem]">Aviso legal</h1>
       <h2>No es asesoría fiscal</h2>
       <p>
-        CobroNeto ofrece <strong>estimaciones informativas</strong>. No sustituye la asesoría de un contador público ni
-        las disposiciones oficiales del SAT. Tu situación puede tener particularidades (otros ingresos, deducciones
-        personales, retenciones en el extranjero, pagos provisionales previos) que cambian el resultado.
+        CobroNeto ofrece <strong>estimaciones informativas</strong>. No sustituye la asesoría de un contador ni las
+        disposiciones oficiales del Ministerio de Hacienda. Tu situación puede tener particularidades (otros ingresos,
+        deducciones personales, retenciones, pagos a cuenta, beneficios fiscales) que cambian el resultado.
       </p>
       <h2>Supuestos del cálculo</h2>
       <ul>
         <li>Ingresos y gastos iguales cada mes del año {FISCAL_YEAR}.</li>
-        <li>Actividad Empresarial: el ISR anual se estima con la tarifa anual y se divide entre 12. No incluye deducciones personales.</li>
-        <li>RESICO: tasa sobre el ingreso mensual cobrado, sin deducciones.</li>
-        <li>Si no hay exportación de servicios, se asume que el IVA del 16 % está incluido en lo que cobras.</li>
-        <li>No se consideran retenciones de impuestos en otros países ni su acreditamiento.</li>
+        <li>
+          El impuesto sobre la renta se estima con la tabla anual del art. 37 sobre la renta neta (cobro menos comisión y
+          gastos) y se divide entre 12. No incluye deducciones personales ni cotizaciones de ISSS o AFP.
+        </li>
+        <li>Si no hay exportación de servicios, se asume que el IVA del 13 % está incluido en lo que cobras.</li>
+        <li>No se consideran retenciones de renta ya efectuadas, impuestos pagados en otros países ni exenciones especiales.</li>
       </ul>
       <h2>Fuentes</h2>
       <ul>
         <li>{SOURCES.isr}</li>
-        <li>{SOURCES.resico}</li>
+        <li>{SOURCES.retencion}</li>
         <li>{SOURCES.iva}</li>
       </ul>
-      <p>Revisamos las tarifas cuando el SAT publica cambios. Si encuentras un error, avísanos.</p>
+      <p>Revisamos las tablas cuando Hacienda publica cambios. Si encuentras un error, avísanos.</p>
     </article>
   );
 }

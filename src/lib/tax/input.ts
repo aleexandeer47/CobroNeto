@@ -4,11 +4,11 @@ import type { CalcInput } from "./calculate";
 export const LIMITS = {
   ingresoUSD: { min: 0, max: 1_000_000 },
   comisionPct: { min: 0, max: 60 },
-  tipoCambio: { min: 5, max: 60 },
-  gastosMXN: { min: 0, max: 20_000_000 },
+  gastosUSD: { min: 0, max: 1_000_000 },
 } as const;
 
 type NumericField = keyof typeof LIMITS;
+const NUMERIC_FIELDS = ["ingresoUSD", "comisionPct", "gastosUSD"] as const satisfies readonly NumericField[];
 
 /** Convierte texto del usuario ("1,250.50", "$ 300") en número acotado. */
 export function parseAmount(raw: string | null | undefined, field: NumericField): number | null {
@@ -24,18 +24,16 @@ export function parseAmount(raw: string | null | undefined, field: NumericField)
 export interface FormState {
   ingresoUSD: string;
   comisionPct: string;
-  tipoCambio: string;
-  gastosMXN: string;
+  gastosUSD: string;
   gastosConIVA: boolean;
   exportacion: boolean;
 }
 
-export function toCalcInput(s: FormState, fallbackTipoCambio: number): CalcInput {
+export function toCalcInput(s: FormState): CalcInput {
   return {
     ingresoUSD: parseAmount(s.ingresoUSD, "ingresoUSD") ?? 0,
     comisionPct: parseAmount(s.comisionPct, "comisionPct") ?? 0,
-    tipoCambio: parseAmount(s.tipoCambio, "tipoCambio") ?? fallbackTipoCambio,
-    gastosMXN: parseAmount(s.gastosMXN, "gastosMXN") ?? 0,
+    gastosUSD: parseAmount(s.gastosUSD, "gastosUSD") ?? 0,
     gastosConIVA: s.gastosConIVA,
     exportacion: s.exportacion,
   };
@@ -44,8 +42,7 @@ export function toCalcInput(s: FormState, fallbackTipoCambio: number): CalcInput
 const PARAM = {
   ingresoUSD: "usd",
   comisionPct: "com",
-  tipoCambio: "tc",
-  gastosMXN: "gas",
+  gastosUSD: "gas",
   gastosConIVA: "giva",
   exportacion: "exp",
 } as const;
@@ -53,7 +50,7 @@ const PARAM = {
 /** Serializa el cálculo en la URL para compartirlo (solo números y banderas). */
 export function toSearchParams(s: FormState): string {
   const p = new URLSearchParams();
-  (["ingresoUSD", "comisionPct", "tipoCambio", "gastosMXN"] as const).forEach((k) => {
+  NUMERIC_FIELDS.forEach((k) => {
     const v = parseAmount(s[k], k);
     if (v != null) p.set(PARAM[k], String(v));
   });
@@ -67,7 +64,7 @@ export function fromSearchParams(search: string, base: FormState): FormState | n
   const p = new URLSearchParams(search.slice(0, 512));
   if (![...Object.values(PARAM)].some((k) => p.has(k))) return null;
   const next = { ...base };
-  (["ingresoUSD", "comisionPct", "tipoCambio", "gastosMXN"] as const).forEach((k) => {
+  NUMERIC_FIELDS.forEach((k) => {
     const v = parseAmount(p.get(PARAM[k]), k);
     if (v != null) next[k] = String(v);
   });

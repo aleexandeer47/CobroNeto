@@ -7,10 +7,10 @@ export function MoneyTools() {
       <div className="grid gap-6 md:grid-cols-[1fr_2fr] md:gap-12">
         <div>
           <h2 id="money-tools" className="text-2xl font-semibold tracking-tight">
-            Dónde recibir tus dólares
+            Dónde recibir tus pagos
           </h2>
           <p className="mt-3 leading-relaxed text-muted">
-            El margen que cobra un banco al convertir puede ser mayor que tu ISR en RESICO.
+            Las comisiones por recibir pagos del extranjero se comen parte de tu cobro. Compara antes de elegir.
           </p>
         </div>
         <ul className="divide-y divide-line border-y border-line">
@@ -44,7 +44,7 @@ export function MoneyTools() {
             <li className="flex flex-wrap items-center justify-between gap-4 py-5">
               <span>
                 <span className="block font-medium">¿Prefieres que un contador lo haga por ti?</span>
-                <span className="text-muted">Contadores que trabajan con freelancers que cobran en dólares.</span>
+                <span className="text-muted">Contadores que trabajan con freelancers que cobran a clientes del extranjero.</span>
               </span>
               <a href={site.leadUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 Hablar con un contador

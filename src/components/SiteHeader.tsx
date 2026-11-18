@@ -3,8 +3,8 @@ import { Wordmark } from "./Wordmark";
 
 const nav = [
   { href: "/guias", label: "Guías" },
-  { href: "/resico-vs-actividad-empresarial", label: "RESICO vs Act. Empresarial" },
-  { href: "/tablas-isr-2026", label: "Tablas ISR 2026" },
+  { href: "/exportacion-de-servicios", label: "IVA 0 % por exportación" },
+  { href: "/tabla-renta-2026", label: "Tabla de renta 2026" },
 ];
 
 export function SiteHeader() {

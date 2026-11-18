@@ -1,39 +1,29 @@
-const mxn = new Intl.NumberFormat("es-MX", {
+const LOCALE = "es-SV";
+
+const usd = new Intl.NumberFormat(LOCALE, {
   style: "currency",
-  currency: "MXN",
+  currency: "USD",
+  currencyDisplay: "narrowSymbol",
   maximumFractionDigits: 0,
 });
-const mxnCents = new Intl.NumberFormat("es-MX", {
+const usdCents = new Intl.NumberFormat(LOCALE, {
   style: "currency",
-  currency: "MXN",
+  currency: "USD",
+  currencyDisplay: "narrowSymbol",
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
-const usd = new Intl.NumberFormat("es-MX", {
-  style: "currency",
-  currency: "USD",
-  currencyDisplay: "code",
-  maximumFractionDigits: 0,
-});
-const pct = new Intl.NumberFormat("es-MX", {
+const pct = new Intl.NumberFormat(LOCALE, {
   style: "percent",
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 1,
 });
-const num = new Intl.NumberFormat("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const dec = new Intl.NumberFormat("es-MX", { maximumFractionDigits: 2 });
+const dec = new Intl.NumberFormat(LOCALE, { maximumFractionDigits: 2 });
 
-export const fmtMXN = (n: number) => mxn.format(n);
-export const fmtMXNCents = (n: number) => mxnCents.format(n);
+/** Dólares sin centavos ($1,250). */
 export const fmtUSD = (n: number) => usd.format(n);
+/** Dólares con centavos ($1,250.50). */
+export const fmtUSDCents = (n: number) => usdCents.format(n);
 export const fmtPct = (n: number) => pct.format(n);
-export const fmtNum = (n: number) => num.format(n);
 /** Hasta dos decimales, sin ceros sobrantes (10 → "10", 12.5 → "12.5"). */
 export const fmtDec = (n: number) => dec.format(n);
-
-export function fmtFecha(iso: string): string {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(
-    new Date(Date.UTC(y, m - 1, d)),
-  );
-}

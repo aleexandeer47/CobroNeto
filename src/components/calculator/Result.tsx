@@ -1,19 +1,19 @@
-import type { CalcInput, CalcResult, RegimenResult } from "@/lib/tax/calculate";
-import { fmtDec, fmtMXN, fmtNum, fmtPct, fmtUSD } from "@/lib/format";
-import { FISCAL_YEAR } from "@/lib/tax/tables2026";
+import type { CalcInput, CalcResult } from "@/lib/tax/calculate";
+import { fmtDec, fmtPct, fmtUSD, fmtUSDCents } from "@/lib/format";
+import { FISCAL_YEAR, ISR_ANNUAL_2026 } from "@/lib/tax/tables2026";
 
 const SEGMENTOS = [
   { key: "neto", label: "Te queda", color: "var(--seg-neto)" },
-  { key: "isr", label: "ISR", color: "var(--seg-isr)" },
+  { key: "isr", label: "Renta (ISR)", color: "var(--seg-isr)" },
   { key: "iva", label: "IVA", color: "var(--seg-iva)" },
   { key: "com", label: "Comisión", color: "var(--seg-com)" },
   { key: "gastos", label: "Gastos", color: "var(--seg-gastos)" },
 ] as const;
 
+const EXENTO_ANUAL = ISR_ANNUAL_2026[1].lower;
+
 export function Result({ result, input }: { result: CalcResult; input: CalcInput }) {
-  const [resico, actividad] = result.regimenes;
-  const mejor = result.recomendado ? result.regimenes.find((r) => r.id === result.recomendado)! : null;
-  const otro = mejor ? result.regimenes.find((r) => r.id !== mejor.id)! : null;
+  const hayCobro = result.bruto > 0;
 
   return (
     <section aria-labelledby="resultado" className="rounded-lg border border-line">
@@ -21,22 +21,21 @@ export function Result({ result, input }: { result: CalcResult; input: CalcInput
         <h2 id="resultado" className="text-sm font-medium text-muted">
           Resultado estimado, por mes
         </h2>
-        {mejor && otro ? (
+        {hayCobro ? (
           <>
             <p className="mt-2 text-2xl font-semibold leading-snug tracking-tight sm:text-[1.75rem]">
-              En {nombreCorto(mejor)} te quedan <span className="num text-accent">{fmtMXN(mejor.netoMensual)}</span>{" "}
-              al mes.
+              Te quedan <span className="num text-accent">{fmtUSD(result.netoMensual)}</span> al mes.
             </p>
             <p className="mt-2 text-muted">
-              {result.ahorroMensual > 0 && otro.elegible ? (
+              {result.apartarMensual > 0 ? (
                 <>
-                  Son <span className="num text-ink">{fmtMXN(result.ahorroMensual)}</span> más que en{" "}
-                  {nombreCorto(otro)}: <span className="num text-ink">{fmtMXN(result.ahorroMensual * 12)}</span> al año.
+                  Aparta <span className="num text-ink">{fmtUSD(result.apartarMensual)}</span> cada mes para impuestos:{" "}
+                  <span className="num text-ink">{fmtUSD(result.apartarMensual * 12)}</span> al año.
                 </>
-              ) : !resico.elegible ? (
-                <>Con este ingreso superas el tope de RESICO (3.5 millones al año), así que tributarías en Actividad Empresarial.</>
               ) : (
-                <>Ambos regímenes te dejan lo mismo.</>
+                <>
+                  Con esta renta no pagas impuesto sobre la renta: está exenta hasta {fmtUSD(EXENTO_ANUAL)} al año.
+                </>
               )}
             </p>
           </>
@@ -45,13 +44,9 @@ export function Result({ result, input }: { result: CalcResult; input: CalcInput
         )}
       </div>
 
-      {result.brutoMXN > 0 && (
+      {hayCobro && (
         <div className="space-y-4 border-t border-line px-4 py-5 sm:px-6" aria-hidden>
-          {result.regimenes
-            .filter((r) => r.elegible)
-            .map((r) => (
-              <Barra key={r.id} r={r} result={result} />
-            ))}
+          <Barra result={result} />
           <ul className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
             {SEGMENTOS.map((s) => (
               <li key={s.key} className="flex items-center gap-1.5">
@@ -64,90 +59,82 @@ export function Result({ result, input }: { result: CalcResult; input: CalcInput
       )}
 
       <div className="overflow-x-auto border-t border-line">
-        <table className="w-full min-w-[22rem] text-sm">
-          <caption className="sr-only">Desglose por régimen</caption>
+        <table className="w-full min-w-[20rem] text-sm">
+          <caption className="sr-only">Desglose del mes</caption>
           <thead>
             <tr className="border-b border-line bg-surface text-left">
               <th scope="col" className="px-4 py-2.5 font-medium sm:px-6">
                 Concepto
               </th>
-              <Th mejor={result.recomendado === "resico"}>RESICO</Th>
-              <Th mejor={result.recomendado === "actividad"}>Act. Empresarial</Th>
+              <th scope="col" className="px-4 py-2.5 text-right font-medium sm:px-6">
+                Al mes
+              </th>
             </tr>
           </thead>
           <tbody className="num divide-y divide-line">
+            <Tr label="Cobro" value={fmtUSDCents(result.bruto)} />
+            <Tr label={`Comisión ${fmtDec(input.comisionPct)} %`} value={menos(result.comision)} />
+            <Tr label={result.ivaCredito > 0 ? "Gastos con IVA" : "Gastos"} value={menos(result.gastosTotales)} />
             <Tr
-              label={`Cobro (${fmtUSD(input.ingresoUSD)} × ${fmtNum(input.tipoCambio)})`}
-              a={fmtMXN(result.brutoMXN)}
-              b={fmtMXN(result.brutoMXN)}
+              label={
+                result.tasaMarginal > 0
+                  ? `Renta (ISR), tramo del ${fmtPct(result.tasaMarginal)}`
+                  : "Renta (ISR), tramo exento"
+              }
+              value={menos(result.isrMensual)}
             />
-            <Tr label={`Comisión ${fmtDec(input.comisionPct)} %`} a={menos(result.comisionMXN)} b={menos(result.comisionMXN)} />
-            <Tr
-              label={result.ivaAcreditable > 0 ? "Gastos con IVA" : "Gastos"}
-              a={menos(result.gastosTotalesMXN)}
-              b={menos(result.gastosTotalesMXN)}
-            />
-            <Tr
-              label={`ISR${resico.elegible ? ` (RESICO ${fmtPct(resico.tasaAplicada)})` : ""}`}
-              a={resico.elegible ? menos(resico.isrMensual) : "No aplica"}
-              b={menos(actividad.isrMensual)}
-            />
-            <Tr
-              label="IVA a pagar"
-              a={resico.elegible ? menos(resico.ivaPorPagar) : "—"}
-              b={menos(actividad.ivaPorPagar)}
-            />
-            <Tr
-              label="Impuestos sobre lo cobrado"
-              a={resico.elegible ? fmtPct(resico.tasaEfectiva) : "—"}
-              b={fmtPct(actividad.tasaEfectiva)}
-            />
+            <Tr label="IVA a pagar" value={menos(result.ivaPorPagar)} />
+            <Tr label="Impuestos sobre lo cobrado" value={fmtPct(result.tasaEfectiva)} />
             <tr className="font-sans">
               <th scope="row" className="px-4 py-3 text-left font-semibold sm:px-6">
                 Te queda
               </th>
-              <Td strong mejor={result.recomendado === "resico"}>
-                {resico.elegible ? fmtMXN(resico.netoMensual) : "—"}
-              </Td>
-              <Td strong mejor={result.recomendado === "actividad"}>
-                {fmtMXN(actividad.netoMensual)}
-              </Td>
+              <td className="num bg-accent-tint px-4 py-3 text-right text-base font-semibold text-accent sm:px-6">
+                {fmtUSDCents(result.netoMensual)}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {hayCobro && (
+        <p className="border-t border-line px-4 py-3 text-sm leading-relaxed text-muted sm:px-6">
+          Renta neta anual estimada: <span className="num text-ink">{fmtUSDCents(result.rentaNetaAnual)}</span>. ISR del
+          año: <span className="num text-ink">{fmtUSDCents(result.isrAnual)}</span>, que se liquida en la declaración
+          anual.
+        </p>
+      )}
+
       {result.ivaSaldoAFavor > 0 && (
         <p className="border-t border-warn-line bg-warn-tint px-4 py-3 text-sm leading-relaxed sm:px-6">
-          Tienes <span className="num font-medium">{fmtMXN(result.ivaSaldoAFavor)}</span> al mes de IVA a favor por tus
-          gastos. Al exportar a tasa 0 % puedes pedir su devolución; no lo sumamos a lo que te queda.
+          Tienes <span className="num font-medium">{fmtUSDCents(result.ivaSaldoAFavor)}</span> al mes de IVA a favor por
+          tus gastos. Como exportador puedes solicitar su devolución; no lo sumamos a lo que te queda.
         </p>
       )}
 
       <p className="border-t border-line px-4 py-3 text-xs leading-relaxed text-muted sm:px-6">
-        Tarifas SAT {FISCAL_YEAR}, ingresos iguales cada mes. Sin deducciones personales ni retenciones de otros
-        países. No es asesoría fiscal.
+        Tabla del art. 37 de la Ley de Impuesto sobre la Renta vigente en {FISCAL_YEAR}, ingresos iguales cada mes.
+        Sin deducciones personales, retenciones ni impuestos de otros países. No es asesoría fiscal.
       </p>
     </section>
   );
 }
 
-const nombreCorto = (r: RegimenResult) => (r.id === "resico" ? "RESICO" : "Actividad Empresarial");
-const menos = (n: number) => (n > 0 ? `−${fmtMXN(n)}` : fmtMXN(0));
+const menos = (n: number) => (n > 0 ? `−${fmtUSDCents(n)}` : fmtUSDCents(0));
 
-function Barra({ r, result }: { r: RegimenResult; result: CalcResult }) {
-  const total = result.brutoMXN;
+function Barra({ result }: { result: CalcResult }) {
+  const total = result.bruto;
   const partes: Record<(typeof SEGMENTOS)[number]["key"], number> = {
-    neto: Math.max(0, r.netoMensual),
-    isr: r.isrMensual,
-    iva: r.ivaPorPagar,
-    com: result.comisionMXN,
-    gastos: result.gastosTotalesMXN,
+    neto: Math.max(0, result.netoMensual),
+    isr: result.isrMensual,
+    iva: result.ivaPorPagar,
+    com: result.comision,
+    gastos: result.gastosTotales,
   };
   return (
     <div>
       <div className="mb-1.5 flex items-baseline justify-between text-sm">
-        <span className="font-medium">{nombreCorto(r)}</span>
+        <span className="font-medium">A dónde va cada dólar</span>
         <span className="text-muted">
           <span className="num">{fmtPct(partes.neto / total)}</span> para ti
         </span>
@@ -167,35 +154,13 @@ function Barra({ r, result }: { r: RegimenResult; result: CalcResult }) {
   );
 }
 
-function Th({ children, mejor }: { children: React.ReactNode; mejor: boolean }) {
-  return (
-    <th scope="col" className={`px-4 py-2.5 text-right font-medium sm:px-6 ${mejor ? "bg-accent-tint" : ""}`}>
-      {children}
-      {mejor && <span className="block text-xs font-normal text-accent">Mejor opción</span>}
-    </th>
-  );
-}
-
-function Tr({ label, a, b }: { label: string; a: string; b: string }) {
+function Tr({ label, value }: { label: string; value: string }) {
   return (
     <tr>
       <th scope="row" className="px-4 py-2.5 text-left font-sans font-normal text-muted sm:px-6">
         {label}
       </th>
-      <td className="px-4 py-2.5 text-right sm:px-6">{a}</td>
-      <td className="px-4 py-2.5 text-right sm:px-6">{b}</td>
+      <td className="px-4 py-2.5 text-right sm:px-6">{value}</td>
     </tr>
-  );
-}
-
-function Td({ children, mejor, strong }: { children: React.ReactNode; mejor: boolean; strong?: boolean }) {
-  return (
-    <td
-      className={`num px-4 py-3 text-right sm:px-6 ${strong ? "text-base font-semibold" : ""} ${
-        mejor ? "bg-accent-tint text-accent" : ""
-      }`}
-    >
-      {children}
-    </td>
   );
 }

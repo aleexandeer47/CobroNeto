@@ -41,6 +41,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  async redirects() {
+    // Rutas de la versión anterior (México).
+    return [
+      { source: "/resico-vs-actividad-empresarial", destination: "/exportacion-de-servicios", permanent: true },
+      { source: "/tablas-isr-2026", destination: "/tabla-renta-2026", permanent: true },
+    ];
+  },
   turbopack: {
     root: import.meta.dirname,
     rules: {

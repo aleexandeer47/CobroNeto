@@ -6,7 +6,7 @@ import { FISCAL_YEAR } from "@/lib/tax/tables2026";
 export const metadata: Metadata = {
   title: `Guías de impuestos para freelancers por plataforma (${FISCAL_YEAR})`,
   description:
-    "Cómo pagar impuestos en México si cobras por Upwork, Fiverr, YouTube, Deel, Twitch o clientes del extranjero. Guías con calculadora.",
+    "Cómo pagar impuestos en El Salvador si cobras por Upwork, Fiverr, YouTube, Deel, Twitch o clientes del extranjero. Guías con calculadora.",
   alternates: { canonical: "/guias" },
 };
 

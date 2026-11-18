@@ -13,12 +13,12 @@ export default function Home() {
     <>
       <section className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
         <h1 className="max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-[2.75rem]">
-          Calculadora de impuestos para freelancers que cobran en dólares
+          Calculadora de impuestos para freelancers en El Salvador
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          ISR e IVA en México con las tarifas SAT {FISCAL_YEAR}, para Upwork, Fiverr, YouTube, Deel o clientes del
-          extranjero. Compara RESICO con Actividad Empresarial. Gratis, sin registro y sin enviar tus montos a ningún
-          servidor.
+          Renta e IVA en El Salvador con la tabla {FISCAL_YEAR}, para Upwork, Fiverr, YouTube, Deel o clientes del
+          extranjero. Descubre cuánto apartar cada mes y cuánto te queda. Gratis, sin registro y sin enviar tus montos a
+          ningún servidor.
         </p>
       </section>
 
@@ -32,34 +32,34 @@ export default function Home() {
           title="Cómo hacemos la cuenta"
           items={[
             {
-              titulo: "Conversión a pesos",
+              titulo: "Todo en dólares",
               texto:
-                "Tu cobro en dólares por el tipo de cambio. Para el SAT vale el FIX que publica Banxico el día anterior a cada pago, así que puedes editar el campo.",
+                "El Salvador usa el dólar, así que no hay tipo de cambio que aplicar: lo que cobras es lo que declaras.",
             },
             {
-              titulo: "RESICO",
+              titulo: "Renta neta",
               texto:
-                "Entre 1 % y 2.5 % de lo que cobras en el mes, según el monto, sin restar gastos. Tope de 3.5 millones al año.",
+                "Lo que cobras menos la comisión de la plataforma y tus gastos con comprobante. Sobre eso se calcula el impuesto.",
             },
             {
-              titulo: "Actividad Empresarial",
-              texto: `Tarifa progresiva ${FISCAL_YEAR} (de 1.92 % a 35 %) sobre tu utilidad: lo que cobras menos comisiones y gastos con factura.`,
+              titulo: "Impuesto sobre la renta",
+              texto: `Tabla anual del art. 37: exenta hasta $6,600 y luego tramos de 10 %, 20 % y 30 %. Calculamos el año completo y lo dividimos entre 12.`,
             },
             {
               titulo: "IVA",
               texto:
-                "0 % si exportas el servicio. Si no, asumimos que el 16 % va incluido en lo que cobras. El IVA de tus gastos se acredita.",
+                "0 % si exportas el servicio. Si no, asumimos que el 13 % va incluido en lo que cobras. El IVA de tus gastos se descuenta como crédito fiscal.",
             },
           ]}
         >
           <p className="mt-4 text-sm text-muted">
             Más detalle en{" "}
-            <Link href="/resico-vs-actividad-empresarial" className="text-accent underline underline-offset-4">
-              RESICO vs Actividad Empresarial
+            <Link href="/exportacion-de-servicios" className="text-accent underline underline-offset-4">
+              IVA 0 % por exportación de servicios
             </Link>{" "}
-            y en las{" "}
-            <Link href="/tablas-isr-2026" className="text-accent underline underline-offset-4">
-              tablas ISR {FISCAL_YEAR}
+            y en la{" "}
+            <Link href="/tabla-renta-2026" className="text-accent underline underline-offset-4">
+              tabla de renta {FISCAL_YEAR}
             </Link>
             .
           </p>
@@ -130,9 +130,9 @@ export default function Home() {
           url: site.url,
           applicationCategory: "FinanceApplication",
           operatingSystem: "Web",
-          inLanguage: "es-MX",
+          inLanguage: site.lang,
           description: site.tagline,
-          offers: { "@type": "Offer", price: "0", priceCurrency: "MXN" },
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         }}
       />
     </>

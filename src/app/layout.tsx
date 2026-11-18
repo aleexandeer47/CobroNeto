@@ -15,11 +15,11 @@ const body = IBM_Plex_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Calculadora de impuestos para freelancers en dólares (México 2026) | CobroNeto",
+    default: "Calculadora de impuestos para freelancers (El Salvador 2026) | CobroNeto",
     template: "%s | CobroNeto",
   },
   description:
-    "¿Cobras en dólares por Upwork, Fiverr, YouTube o clientes del extranjero? Calcula tu ISR e IVA en México con tarifas SAT 2026 y compara RESICO vs Actividad Empresarial. Gratis y sin registro.",
+    "¿Cobras por Upwork, Fiverr, YouTube o clientes del extranjero? Calcula tu renta e IVA en El Salvador con la tabla 2026 y descubre cuánto apartar cada mes. Gratis y sin registro.",
   applicationName: site.name,
   alternates: { canonical: "/" },
   openGraph: {
@@ -42,7 +42,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es-MX" className={`${body.variable} h-full`}>
+    <html lang={site.lang}className={`${body.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <a
           href="#contenido"

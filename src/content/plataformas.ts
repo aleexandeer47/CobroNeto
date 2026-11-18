@@ -21,16 +21,16 @@ export interface Plataforma {
 
 const faqComunes = (nombre: string): FaqItem[] => [
   {
-    q: `¿Tengo que pagar impuestos en México por lo que gano en ${nombre}?`,
-    a: `Sí. Si eres residente fiscal en México, pagas ISR por tus ingresos de cualquier parte del mundo, incluidos los que recibes en dólares por ${nombre}. No importa que el dinero se quede en una cuenta del extranjero.`,
+    q: `¿Tengo que pagar renta en El Salvador por lo que gano en ${nombre}?`,
+    a: `Si trabajas desde El Salvador, sí. La Ley de Impuesto sobre la Renta considera de fuente salvadoreña los servicios prestados en el país, aunque el cliente esté afuera y el dinero llegue a una cuenta del extranjero. Lo que ganas por ${nombre} se suma a tu renta y lo liquidas en la declaración anual, que se presenta a más tardar el 30 de abril.`,
   },
   {
     q: `¿Cómo facturo lo que cobro por ${nombre}?`,
-    a: "Emites un CFDI de ingreso al cliente o a la plataforma usando el RFC genérico para extranjeros (XEXX010101000) y el nombre y país del receptor. El monto se convierte a pesos con el tipo de cambio FIX que publica Banxico en el DOF el día anterior al cobro.",
+    a: "Con el sistema de facturación electrónica (DTE) del Ministerio de Hacienda. A un cliente o plataforma del extranjero se le emite una factura de exportación; a un cliente salvadoreño, factura o comprobante de crédito fiscal con IVA del 13 %. Para todo esto necesitas tu NIT (tu DUI) y, si superas el umbral, estar inscrito como contribuyente de IVA.",
   },
   {
-    q: "¿Me conviene RESICO o Actividad Empresarial?",
-    a: "Si tus gastos deducibles son bajos (lo normal en servicios digitales), RESICO casi siempre paga menos: entre 1 % y 2.5 % de lo que cobras. Actividad Empresarial puede convenir si tienes gastos altos con factura, porque ahí el ISR se calcula sobre la utilidad. La calculadora compara ambos con tus números.",
+    q: "¿Cuánto me van a cobrar de renta?",
+    a: "Depende de tu renta neta del año (lo que cobras menos comisiones y gastos con comprobante). Hasta $6,600 al año está exenta; después, la tabla del art. 37 sube por tramos de 10 %, 20 % y 30 %. La calculadora hace la cuenta con tus números.",
   },
 ];
 
@@ -42,24 +42,24 @@ export const plataformas: Plataforma[] = [
     comisionDefault: 10,
     comisionNota:
       "Upwork descuenta una comisión de servicio de cada pago y el porcentaje ha cambiado con los años. Revisa el desglose en tu historial de transacciones y ajusta el campo.",
-    keyword: "Impuestos por Upwork en México",
+    keyword: "Impuestos por Upwork en El Salvador",
     intro:
-      "Cobras en dólares por Upwork y no sabes cuánto apartar para el SAT. Calcula tu ISR e IVA con tarifas 2026 y compara RESICO contra Actividad Empresarial en segundos.",
+      "Cobras en dólares por Upwork desde El Salvador y no sabes cuánto apartar para Hacienda. Calcula tu renta e IVA con la tabla 2026 y descubre cuánto te queda limpio.",
     puntos: [
       {
         titulo: "Tu ingreso es el monto bruto",
         texto:
-          "Para el SAT tu ingreso es lo que el cliente paga por tu trabajo. La comisión de Upwork es un gasto: en Actividad Empresarial puedes deducirla si tienes el comprobante; en RESICO no hay deducciones.",
+          "Para Hacienda tu ingreso es lo que el cliente paga por tu trabajo. La comisión de Upwork es un gasto que puedes restar si conservas el comprobante (el detalle de transacciones de la plataforma).",
       },
       {
-        titulo: "IVA 0 % solo si califica como exportación",
+        titulo: "IVA 0 % si es exportación",
         texto:
-          "Los servicios a clientes en el extranjero pueden tributar a tasa 0 % de IVA, pero solo si están en los supuestos del art. 29 de la Ley del IVA y se aprovechan fuera de México. Si no calificas, el IVA de 16 % sale de lo que cobras.",
+          "Un cliente no domiciliado en El Salvador que usa tu servicio solo afuera permite facturar como exportación, a tasa 0 %. Si no calificas, el IVA de 13 % sale de lo que cobras.",
       },
       {
-        titulo: "Convierte con el tipo de cambio correcto",
+        titulo: "Nadie te retiene renta",
         texto:
-          "Cada cobro se convierte a pesos con el tipo de cambio FIX publicado por Banxico el día anterior a que recibes el dinero, no con el de tu banco.",
+          "Como el cliente está afuera, nadie te hace la retención del 10 % que aplicaría una empresa salvadoreña. Aparta tú el dinero cada mes para no llevarte una sorpresa en abril.",
       },
     ],
     faq: faqComunes("Upwork"),
@@ -70,23 +70,23 @@ export const plataformas: Plataforma[] = [
     etiqueta: "Fiverr",
     comisionDefault: 20,
     comisionNota: "Fiverr retiene alrededor del 20 % de cada pedido. Ajusta si tu caso es distinto.",
-    keyword: "Impuestos por Fiverr en México",
+    keyword: "Impuestos por Fiverr en El Salvador",
     intro:
-      "Vendes gigs en Fiverr desde México. Descubre cuánto ISR e IVA te toca pagar y cuánto te queda limpio después de la comisión y los impuestos.",
+      "Vendes gigs en Fiverr desde El Salvador. Descubre cuánta renta e IVA te toca y cuánto te queda limpio después de la comisión y los impuestos.",
     puntos: [
       {
         titulo: "La comisión de Fiverr pesa mucho",
         texto:
-          "Con un 20 % de comisión, la diferencia entre RESICO (sin deducciones) y Actividad Empresarial (que sí la deduce) es mayor que en otras plataformas. Vale la pena comparar.",
+          "Con un 20 % de comisión, restarla como gasto baja bastante tu renta neta. Descarga y guarda los reportes de ganancias de la plataforma.",
       },
       {
         titulo: "Las propinas también son ingreso",
-        texto: "Los tips que recibes de clientes forman parte de tus ingresos acumulables.",
+        texto: "Los tips que te dejan los clientes forman parte de tus ingresos gravados.",
       },
       {
         titulo: "Retiros y comisiones de transferencia",
         texto:
-          "Las comisiones por retirar a Payoneer o a tu banco son gastos del negocio. Guarda los comprobantes si tributas en Actividad Empresarial.",
+          "Lo que pagas por retirar a Payoneer o a tu banco es un gasto de tu actividad. Guarda los comprobantes.",
       },
     ],
     faq: faqComunes("Fiverr"),
@@ -98,24 +98,24 @@ export const plataformas: Plataforma[] = [
     comisionDefault: 0,
     comisionNota:
       "Google paga tu parte ya descontada, así que normalmente la comisión aquí es 0 %. Si tienes una MCN o representante, pon su porcentaje.",
-    keyword: "Impuestos por YouTube en México",
+    keyword: "Impuestos por YouTube en El Salvador",
     intro:
-      "Ganas dinero con AdSense, membresías o Super Chats en YouTube. Calcula el ISR que te toca en México y cuánto te queda en pesos.",
+      "Ganas dinero con AdSense, membresías o Super Chats en YouTube. Calcula la renta que te toca en El Salvador y cuánto te queda en el bolsillo.",
     puntos: [
       {
         titulo: "Retención de EE.UU. sobre vistas de EE.UU.",
         texto:
-          "Google puede retener impuestos de EE.UU. sobre lo que ganas por audiencia de ese país. Llenar la información fiscal (formulario W-8BEN) y aplicar el tratado México–EE.UU. normalmente reduce esa retención. Lo retenido en el extranjero podría acreditarse en México: consúltalo con un contador.",
+          "Google retiene impuesto de EE.UU. sobre lo que ganas por audiencia de ese país. Como El Salvador no tiene tratado para evitar la doble tributación con EE.UU., esa retención suele ser del 30 %. Llena tu información fiscal en AdSense (formulario W-8BEN) para que no te retengan sobre todo lo demás.",
       },
       {
         titulo: "Patrocinios en especie también cuentan",
         texto:
-          "Los productos que recibes a cambio de publicidad tienen valor fiscal. Para el SAT son ingresos aunque no hayas recibido dinero.",
+          "Los productos que recibes a cambio de publicidad tienen valor y, para Hacienda, son ingreso aunque no hayas recibido dinero.",
       },
       {
-        titulo: "Equipo deducible",
+        titulo: "Tu equipo es un gasto",
         texto:
-          "Cámaras, micrófonos, iluminación y software pueden deducirse en Actividad Empresarial. Si tus gastos son altos, compara ambos regímenes.",
+          "Cámaras, micrófonos, iluminación y software son gastos de tu actividad si tienes el comprobante. Restarlos baja tu renta neta.",
       },
     ],
     faq: faqComunes("YouTube"),
@@ -127,24 +127,24 @@ export const plataformas: Plataforma[] = [
     comisionDefault: 0,
     comisionNota:
       "Con Deel normalmente la empresa paga la comisión. Si pagas costos por retirar o convertir, inclúyelos aquí.",
-    keyword: "Impuestos si cobras por Deel en México",
+    keyword: "Impuestos si cobras por Deel en El Salvador",
     intro:
-      "Trabajas como contractor para una empresa extranjera y cobras por Deel. Ese contrato no te convierte en empleado: tú pagas tus impuestos en México. Calcula cuánto.",
+      "Trabajas como contractor para una empresa extranjera y cobras por Deel. Ese contrato no te convierte en empleado: tú declaras y pagas tu renta en El Salvador. Calcula cuánto.",
     puntos: [
       {
-        titulo: "Contractor ≠ empleado",
+        titulo: "Contractor no es empleado",
         texto:
-          "Como contractor nadie te retiene ISR en México. Tú te das de alta en el SAT, facturas y presentas tus declaraciones mensuales.",
+          "Como contractor no tienes patrono en El Salvador: nadie te retiene renta ni te descuenta ISSS o AFP. Tú facturas y presentas tu declaración anual.",
       },
       {
         titulo: "Sueldo fijo en dólares",
         texto:
-          "Un ingreso mensual estable facilita planear. RESICO suele ser muy competitivo para contractors con pocos gastos.",
+          "Un ingreso mensual estable facilita planear. Aparta cada mes lo que te indica la calculadora y llegarás a abril sin apuros.",
       },
       {
-        titulo: "Cuidado con el tipo de cambio",
+        titulo: "Seguridad social por tu cuenta",
         texto:
-          "Si retiras a pesos en una fecha distinta a la del pago, el tipo de cambio fiscal y el de tu banco no coinciden. Para el SAT importa el FIX del día anterior al cobro.",
+          "Si quieres cobertura de salud o ahorro para el retiro, puedes cotizar como independiente al ISSS y a una AFP. La calculadora no incluye esas cotizaciones.",
       },
     ],
     faq: faqComunes("Deel"),
@@ -156,22 +156,22 @@ export const plataformas: Plataforma[] = [
     comisionDefault: 0,
     comisionNota:
       "Twitch paga tu parte de suscripciones y bits ya descontada. Pon aquí otras comisiones que pagues (agencias, retiros).",
-    keyword: "Impuestos por Twitch en México",
+    keyword: "Impuestos por Twitch en El Salvador",
     intro:
-      "Haces streaming y Twitch te paga en dólares. Calcula tu ISR e IVA en México con tarifas 2026 y descubre qué régimen te conviene.",
+      "Haces streaming y Twitch te paga en dólares. Calcula tu renta e IVA en El Salvador con la tabla 2026 y cuánto te queda cada mes.",
     puntos: [
       {
         titulo: "Subs, bits y anuncios son ingresos",
-        texto: "Todo lo que te paga Twitch, más donaciones por plataformas externas, se acumula como ingreso.",
+        texto: "Todo lo que te paga Twitch, más donaciones por plataformas externas, suma a tu renta.",
       },
       {
         titulo: "Retención de EE.UU.",
         texto:
-          "Como con YouTube, Twitch puede retener impuestos de EE.UU. sobre ciertos ingresos. Llena tu información fiscal para aplicar el tratado.",
+          "Como con YouTube, Twitch puede retener impuesto de EE.UU. sobre ciertos ingresos. Llena tu información fiscal en la plataforma para que la retención sea la mínima que corresponde.",
       },
       {
-        titulo: "Tu setup puede deducirse",
-        texto: "PC, cámara, micrófono e internet son deducibles en Actividad Empresarial si tienes factura.",
+        titulo: "Tu setup es un gasto",
+        texto: "PC, cámara, micrófono e internet son gastos de tu actividad si tienes el comprobante.",
       },
     ],
     faq: faqComunes("Twitch"),
@@ -182,28 +182,28 @@ export const plataformas: Plataforma[] = [
     etiqueta: "Clientes en el extranjero",
     comisionDefault: 0,
     comisionNota:
-      "Si cobras por PayPal, Stripe o Wise, pon aquí el porcentaje aproximado que te cobran por recibir o convertir.",
-    keyword: "Impuestos por clientes en el extranjero (PayPal, Stripe, Wise)",
+      "Si cobras por PayPal, Stripe o Payoneer, pon aquí el porcentaje aproximado que te cobran por recibir el pago.",
+    keyword: "Impuestos por clientes en el extranjero (PayPal, Stripe, Payoneer)",
     intro:
-      "Le facturas directamente a clientes en EE.UU., Canadá o Europa y cobras por PayPal, Stripe o transferencia. Calcula tus impuestos en México y cuánto te queda.",
+      "Le facturas directamente a clientes en EE.UU., Canadá o Europa y cobras por PayPal, Stripe o transferencia. Calcula tus impuestos en El Salvador y cuánto te queda.",
     puntos: [
       {
         titulo: "Exportación de servicios",
         texto:
-          "Si el servicio está en los supuestos del art. 29, fracción IV de la Ley del IVA y se aprovecha en el extranjero, puedes facturar con IVA 0 % y pedir la devolución del IVA de tus gastos.",
+          "Si el cliente no está domiciliado en El Salvador y usa el servicio exclusivamente afuera, facturas con IVA 0 % y puedes pedir la devolución del IVA que pagaste en tus gastos.",
       },
       {
         titulo: "Guarda la evidencia",
         texto:
-          "Contrato, correos, facturas y el rastro del pago desde el extranjero ayudan a demostrar que el servicio se aprovechó fuera de México.",
+          "Contrato, correos, facturas y el rastro del pago desde el extranjero ayudan a demostrar que el servicio se usó fuera del país. Hacienda puede pedírtelos.",
       },
       {
         titulo: "Comisiones de cobro",
         texto:
-          "PayPal y Stripe cobran por transacción y por conversión de moneda. Son gastos deducibles en Actividad Empresarial con su comprobante.",
+          "PayPal y Stripe cobran por transacción y, a veces, por conversión de moneda. Son gastos de tu actividad si guardas el comprobante.",
       },
     ],
-    faq: faqComunes("PayPal, Stripe o Wise"),
+    faq: faqComunes("PayPal, Stripe o Payoneer"),
   },
 ];
 
@@ -214,22 +214,26 @@ export function getPlataforma(slug: string): Plataforma | undefined {
 export const faqGeneral: FaqItem[] = [
   {
     q: "¿Qué tan exacto es el cálculo?",
-    a: "Es una estimación mensual con las tarifas 2026 del SAT, suponiendo ingresos constantes. No incluye deducciones personales, pagos provisionales ya hechos ni retenciones de otros países. Úsalo para planear y confirma tu caso con un contador.",
+    a: "Es una estimación mensual con la tabla de renta vigente en 2026, suponiendo ingresos iguales todo el año. No incluye deducciones personales, retenciones que ya te hayan hecho ni impuestos de otros países. Úsalo para planear y confirma tu caso con un contador.",
   },
   {
     q: "¿Mis datos se guardan en algún lado?",
     a: "No. El cálculo ocurre en tu navegador. No pedimos registro y no enviamos tus montos a ningún servidor. Si usas “Copiar enlace”, los números van solo en la URL que tú compartes.",
   },
   {
-    q: "¿Por qué el tipo de cambio no coincide con mi banco?",
-    a: "Mostramos una referencia de mercado para que la calculadora funcione sin configurar nada. Para efectos fiscales debes usar el tipo de cambio FIX que publica Banxico en el DOF el día anterior a cada cobro. Puedes editar el campo.",
-  },
-  {
-    q: "¿Qué pasa si gano más de 3.5 millones al año?",
-    a: "En 2026 ya no puedes tributar en RESICO como persona física y pasas a Actividad Empresarial y Profesional. La calculadora te lo marca automáticamente.",
+    q: "¿Cuánto puedo ganar sin pagar renta?",
+    a: "Desde la reforma de abril de 2025, la renta neta de hasta $6,600 al año ($550 al mes) está exenta. Si la superas, pagas según los tramos del art. 37: el primero ya incluye una cuota fija de $212.12 más el 10 % de lo que pase de $6,600.",
   },
   {
     q: "¿Cuándo aplica el IVA 0 %?",
-    a: "Cuando el servicio está en los supuestos de exportación del art. 29 de la Ley del IVA (por ejemplo, ciertos servicios de tecnologías de la información, asistencia técnica o publicidad) y se aprovecha en el extranjero. No todos los servicios a extranjeros califican; si tienes dudas, desactiva la opción para ver el escenario conservador.",
+    a: "Cuando exportas el servicio: el cliente no está domiciliado en El Salvador y el servicio se usa exclusivamente en el extranjero. Que el cliente sea extranjero no basta por sí solo; si el servicio se aprovecha en el país, lleva 13 %. Si tienes dudas, elige 13 % para ver el escenario conservador.",
+  },
+  {
+    q: "¿Tengo que inscribirme como contribuyente de IVA?",
+    a: "Si tus ventas de servicios del último año superan $5,714.29, sí. Por debajo de ese monto (y con pocos activos) puedes quedar como pequeño contribuyente, sin obligación de IVA. Las exportaciones también cuentan: aunque vayan al 0 %, se declaran.",
+  },
+  {
+    q: "¿Y si programo software?",
+    a: "La Ley de Fomento a la Innovación y Manufactura de Tecnologías (2023) contempla exenciones de renta para ciertas actividades tecnológicas, como el desarrollo de software, si obtienes la calificación correspondiente. No es automática y la calculadora no la aplica; consúltalo con un contador.",
   },
 ];

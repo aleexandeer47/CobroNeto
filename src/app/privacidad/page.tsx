@@ -20,14 +20,9 @@ export default function Privacidad() {
         Si usas “Copiar enlace a este cálculo”, los números se incluyen en la dirección (URL) que tú copias. Solo los verá
         quien reciba ese enlace. Si no quieres compartirlos, no compartas el enlace.
       </p>
-      <h2>Tipo de cambio</h2>
-      <p>
-        Nuestro servidor consulta periódicamente un tipo de cambio de referencia a un servicio público. Esa consulta no
-        incluye ningún dato tuyo.
-      </p>
       <h2>Enlaces a terceros</h2>
       <p>
-        Algunos enlaces llevan a servicios de terceros (por ejemplo, cuentas para recibir dólares). Al visitarlos aplican
+        Algunos enlaces llevan a servicios de terceros (por ejemplo, cuentas para recibir pagos del extranjero). Al visitarlos aplican
         sus propias políticas de privacidad. Algunos pueden ser enlaces de afiliado.
       </p>
       <h2>Publicidad y analítica</h2>

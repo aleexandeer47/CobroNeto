@@ -7,8 +7,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "", priority: 1 },
     { path: "/guias", priority: 0.8 },
     ...plataformas.map((p) => ({ path: `/guias/${p.slug}`, priority: 0.9 })),
-    { path: "/resico-vs-actividad-empresarial", priority: 0.8 },
-    { path: "/tablas-isr-2026", priority: 0.8 },
+    { path: "/exportacion-de-servicios", priority: 0.8 },
+    { path: "/tabla-renta-2026", priority: 0.8 },
     { path: "/privacidad", priority: 0.2 },
     { path: "/aviso-legal", priority: 0.2 },
   ];

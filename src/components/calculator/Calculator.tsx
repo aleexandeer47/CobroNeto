@@ -3,7 +3,6 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import { calculate } from "@/lib/tax/calculate";
 import { fromSearchParams, toCalcInput, toSearchParams, type FormState } from "@/lib/tax/input";
-import { fmtFecha } from "@/lib/format";
 import { Result } from "./Result";
 
 export interface PlataformaOption {
@@ -13,22 +12,19 @@ export interface PlataformaOption {
 }
 
 interface Props {
-  tipoCambio: number;
-  tipoCambioFecha: string | null;
   plataformas: PlataformaOption[];
   plataformaInicial?: string;
 }
 
 const OTRA = "otra";
 
-export function Calculator({ tipoCambio, tipoCambioFecha, plataformas, plataformaInicial }: Props) {
+export function Calculator({ plataformas, plataformaInicial }: Props) {
   const inicial = plataformas.find((p) => p.slug === plataformaInicial);
   const [plataforma, setPlataforma] = useState(inicial?.slug ?? plataformas[0]?.slug ?? OTRA);
   const [form, setForm] = useState<FormState>(() => ({
-    ingresoUSD: "2000",
+    ingresoUSD: "1500",
     comisionPct: String(inicial?.comisionDefault ?? plataformas[0]?.comisionDefault ?? 0),
-    tipoCambio: String(tipoCambio),
-    gastosMXN: "2500",
+    gastosUSD: "100",
     gastosConIVA: true,
     exportacion: true,
   }));
@@ -46,7 +42,7 @@ export function Calculator({ tipoCambio, tipoCambioFecha, plataformas, plataform
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const input = useMemo(() => toCalcInput(form, tipoCambio), [form, tipoCambio]);
+  const input = useMemo(() => toCalcInput(form), [form]);
   const result = useMemo(() => calculate(input), [input]);
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
@@ -113,23 +109,11 @@ export function Calculator({ tipoCambio, tipoCambioFecha, plataformas, plataform
           />
 
           <Row
-            label="Tipo de cambio"
-            hint={
-              tipoCambioFecha
-                ? `Mercado, ${fmtFecha(tipoCambioFecha)}. Para el SAT vale el FIX de Banxico.`
-                : "Aproximado. Para el SAT vale el FIX de Banxico."
-            }
-            prefix="$"
-            value={form.tipoCambio}
-            onChange={(v) => set("tipoCambio", v)}
-          />
-
-          <Row
-            label="Gastos con factura"
-            hint="Internet, equipo, software, coworking. En pesos, sin IVA."
-            prefix="$"
-            value={form.gastosMXN}
-            onChange={(v) => set("gastosMXN", v)}
+            label="Gastos con comprobante"
+            hint="Internet, equipo, software, coworking. Al mes, sin IVA."
+            prefix="US$"
+            value={form.gastosUSD}
+            onChange={(v) => set("gastosUSD", v)}
           />
 
           <label className="flex min-h-11 cursor-pointer items-start gap-3 px-4 py-3">
@@ -139,7 +123,7 @@ export function Calculator({ tipoCambio, tipoCambioFecha, plataformas, plataform
               onChange={(e) => set("gastosConIVA", e.target.checked)}
               className="mt-0.5 h-4 w-4 accent-[var(--accent)]"
             />
-            <span className="text-sm">Mis gastos pagan IVA del 16 %</span>
+            <span className="text-sm">Mis gastos pagan IVA del 13 % (con crédito fiscal)</span>
           </label>
 
           <fieldset className="px-4 py-3">
@@ -153,11 +137,12 @@ export function Calculator({ tipoCambio, tipoCambioFecha, plataformas, plataform
               <Segment
                 checked={!form.exportacion}
                 onChange={() => set("exportacion", false)}
-                label="16 % (no sé / no aplica)"
+                label="13 % (no sé / no aplica)"
               />
             </div>
             <p className="mt-2 text-xs leading-relaxed text-muted">
-              0 % solo si tu servicio está en el art. 29 de la Ley del IVA y se aprovecha en el extranjero.
+              0 % solo si el cliente no está domiciliado en El Salvador y usa el servicio exclusivamente en el
+              extranjero (arts. 74 y 75 de la Ley de IVA).
             </p>
           </fieldset>
         </div>
